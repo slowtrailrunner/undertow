@@ -52,7 +52,7 @@ import java.util.Set;
 public class ByteRangeHandler implements HttpHandler {
 
     private final HttpHandler next;
-    private final boolean sendAcceptRanges;
+    private boolean sendAcceptRanges;
 
     private static final ResponseCommitListener ACCEPT_RANGE_LISTENER = new ResponseCommitListener() {
         @Override
@@ -66,11 +66,18 @@ public class ByteRangeHandler implements HttpHandler {
 
     };
 
+    public ByteRangeHandler(HttpHandler next) {
+        this(next,true);
+    }
+
     public ByteRangeHandler(HttpHandler next, boolean sendAcceptRanges) {
         this.next = next;
         this.sendAcceptRanges = sendAcceptRanges;
     }
 
+    public void setSendAcceptRanges(boolean sendAcceptRanges) {
+        this.sendAcceptRanges = sendAcceptRanges;
+    }
 
     @Override
     public void handleRequest(HttpServerExchange exchange) throws Exception {
